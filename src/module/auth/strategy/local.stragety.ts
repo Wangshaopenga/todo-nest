@@ -9,15 +9,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super()
   }
 
-  async validate(email: string, password: string) {
-    const user = await this.prisma.user.findFirst({ where: { email } })
-    if (!user)
-      throw new UnauthorizedException({ message: '用户不存在' })
-    if (user.password === password) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user
-      return result
-    }
-    else { throw new BadRequestException({ message: '密码错误' }) }
+  async validate({ sub: id }) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...result } = user
+    return result
   }
 }

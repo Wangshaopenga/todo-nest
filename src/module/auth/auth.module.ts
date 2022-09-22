@@ -6,7 +6,6 @@ import { PrismaService } from '../prisma/prisma.service'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { jwtStrategy } from './strategy/jwt.strategy'
-import { LocalStrategy } from './strategy/local.stragety'
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -21,8 +20,7 @@ import { LocalStrategy } from './strategy/local.stragety'
     },
   })],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, LocalStrategy, jwtStrategy],
-  exports: [AuthService],
+  providers: [AuthService, PrismaService, jwtStrategy],
 
 })
 export class AuthModule {}

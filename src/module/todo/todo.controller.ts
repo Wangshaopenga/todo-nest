@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { TodoService } from './todo.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { UpdateTodoDto } from './dto/update-todo.dto'
@@ -13,8 +13,10 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll()
+  findAll(@Body('id') id: CreateTodoDto) {
+    return id
+    throw new BadRequestException()
+    // return this.todoService.findAll()
   }
 
   @Get(':id')
